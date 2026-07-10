@@ -1,16 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+
+const MyComponent = () => {
+  return <div>hello hehehe, this is Component</div>;
+};
 
 const App = () => {
-  const [count, setCount] = useState(0)
-
-  const myFunction = () => {
-    console.log("hello React!")
-  }
-
-  myFunction();
+  const [count, setCount] = useState(0);
 
   return (
     <>
@@ -23,6 +21,7 @@ const App = () => {
         </a>
       </div>
       <h1>Vite + React</h1>
+      <MyComponent />
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -35,7 +34,7 @@ const App = () => {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
