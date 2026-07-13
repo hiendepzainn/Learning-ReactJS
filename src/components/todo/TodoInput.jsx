@@ -1,4 +1,8 @@
-var TodoInput = () => {
+var TodoInput = (props) => {
+  const { myFunction } = props;
+
+  myFunction("Hien");
+
   return (
     <>
       <div className="todo-input">
