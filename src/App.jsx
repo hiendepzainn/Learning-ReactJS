@@ -1,20 +1,13 @@
-import "./components/todo/todo.css";
-import TodoContent from "./components/todo/TodoContent";
-import TodoInput from "./components/todo/TodoInput";
+import Bai1 from "./components/bt1/Bai1";
+import Bai2 from "./components/bt2/Bai2";
+import Bai3 from "./components/bt3/Bai3";
+import Bai4 from "./components/bt4/Bai4";
+import Bai5 from "./components/bt5/Bai5";
 
 const App = () => {
-  const name = "Dinh Xuan Hien";
-  const age = 22;
-
-  const myFunction = (name) => {
-    alert(`hello ${name}`);
-  };
-
   return (
     <>
-      <div className="todo-title">Todo List</div>
-      <TodoInput myFunction={myFunction} />
-      <TodoContent name={name} age={age} />
+      <Bai5 />
     </>
   );
 };
