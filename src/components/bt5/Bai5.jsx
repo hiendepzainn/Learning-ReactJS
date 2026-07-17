@@ -24,9 +24,9 @@ var Bai5 = () => {
       <button onClick={handleClick}>Add</button>
       <br />
       <br />
-      {list.map((item, index) => {
+      {list.map((item) => {
         return (
-          <div key={index}>
+          <div key={item.id}>
             <span>- {item.name}</span>
             <button
               onClick={() => {
