@@ -1,4 +1,5 @@
 import { useState } from "react";
+import reactLogo from "../../assets/react.svg";
 
 var Bai5 = () => {
   const [list, setList] = useState([]);
@@ -24,20 +25,28 @@ var Bai5 = () => {
       <button onClick={handleClick}>Add</button>
       <br />
       <br />
-      {list.map((item) => {
-        return (
-          <div key={item.id}>
-            <span>- {item.name}</span>
-            <button
-              onClick={() => {
-                handleDelete(item.id);
-              }}
-            >
-              delete
-            </button>
-          </div>
-        );
-      })}
+      {list.length == 0 ? (
+        <>
+          <img src={reactLogo} />
+        </>
+      ) : (
+        <>
+          {list.map((item) => {
+            return (
+              <div key={item.id}>
+                <span>- {item.name}</span>
+                <button
+                  onClick={() => {
+                    handleDelete(item.id);
+                  }}
+                >
+                  delete
+                </button>
+              </div>
+            );
+          })}
+        </>
+      )}
     </>
   );
 };
