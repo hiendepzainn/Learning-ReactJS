@@ -1,14 +1,10 @@
 var TodoInput = (props) => {
-  const { myFunction } = props;
-
-  myFunction("Hien");
+  const { value, handleChange, handleClick } = props;
 
   return (
     <>
-      <div className="todo-input">
-        <input type="text" />
-        <button>Add</button>
-      </div>
+      <input type="text" value={value} onChange={handleChange} />
+      <button onClick={handleClick}>Add</button>
     </>
   );
 };
