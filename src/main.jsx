@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App3 from "./App3.jsx";
+import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserPage from "./pages/user.jsx";
 import ProductPage from "./pages/product.jsx";
@@ -11,7 +11,7 @@ import "./styles/global.css";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App3 />,
+    element: <App />,
   },
   {
     path: "/users",

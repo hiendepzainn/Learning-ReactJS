@@ -1,43 +1,41 @@
 import { useState } from "react";
-import TodoData from "./components/todo/TodoData";
-import TodoInput from "./components/todo/TodoInput";
+import TodoDisplay from "./components/todo2/TodoDisplay";
+import TodoInput from "./components/todo2/TodoInput";
+import Header from "./components/layout/header";
+import Footer from "./components/layout/footer";
 
 const App = () => {
   const [list, setList] = useState([
     {
-      id: 84923,
-      name: "Making heroes!",
+      id: 1,
+      name: "Makking horeos",
     },
     {
-      id: 83423,
-      name: "Cleaning house!",
+      id: 2,
+      name: "Enjoy Peppa pig",
     },
   ]);
-  const [value, setValue] = useState("");
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
+  const addTodo = (value) => {
+    const newTodo = {
+      id: Math.floor(Math.random() * 100000),
+      name: value,
+    };
+    setList([...list, newTodo]);
   };
-
-  const handleClick = () => {
-    setList([...list, { id: Math.floor(Math.random() * 100000), name: value }]);
-    setValue("");
-  };
-
-  const handleDelete = (id) => {
-    const newList = list.filter((item) => item.id != id);
+  const deleteTodo = (id) => {
+    const newList = list.filter((item) => item.id !== id);
     setList(newList);
   };
-
   return (
     <>
+      <Header />
       <h2>Todo App</h2>
-      <TodoInput
-        value={value}
-        handleChange={handleChange}
-        handleClick={handleClick}
-      />
-      <TodoData list={list} handleDelete={handleDelete} />
+      <TodoInput list={list} addTodo={addTodo} />
+      <br />
+      <br />
+      <TodoDisplay list={list} deleteTodo={deleteTodo} />
+      <Footer />
     </>
   );
 };
