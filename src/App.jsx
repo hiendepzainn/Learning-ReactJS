@@ -3,6 +3,7 @@ import TodoDisplay from "./components/todo2/TodoDisplay";
 import TodoInput from "./components/todo2/TodoInput";
 import Header from "./components/layout/header";
 import Footer from "./components/layout/footer";
+import { Outlet } from "react-router-dom";
 
 const App = () => {
   const [list, setList] = useState([
@@ -35,6 +36,7 @@ const App = () => {
       <br />
       <br />
       <TodoDisplay list={list} deleteTodo={deleteTodo} />
+      <Outlet />
       <Footer />
     </>
   );
