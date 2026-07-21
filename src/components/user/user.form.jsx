@@ -1,6 +1,15 @@
 import { Button, Input } from "antd";
+import { useState } from "react";
 
 const UserForm = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const handleClick = () => {
+    console.log({ name, email, password, phone });
+  };
   return (
     <>
       <div
@@ -15,30 +24,41 @@ const UserForm = () => {
             <div style={{ marginBottom: "12px" }}>
               <div>Full name</div>
               <div>
-                <Input />
+                <Input value={name} onChange={(e) => setName(e.target.value)} />
               </div>
             </div>
             <div style={{ marginBottom: "10px" }}>
               <div>Email</div>
               <div>
-                <Input />
+                <Input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
             </div>
             <div style={{ marginBottom: "10px" }}>
               <div>Password</div>
               <div>
-                <Input.Password />
+                <Input.Password
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
             </div>
             <div style={{ marginBottom: "10px" }}>
               <div>Phone number</div>
               <div>
-                <Input />
+                <Input
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
               </div>
             </div>
           </div>
           <div>
-            <Button type="primary">Create User</Button>
+            <Button type="primary" onClick={handleClick}>
+              Create User
+            </Button>
           </div>
         </div>
       </div>
