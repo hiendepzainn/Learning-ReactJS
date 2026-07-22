@@ -1,4 +1,5 @@
 import { Button, Input } from "antd";
+import axios from "axios";
 import { useState } from "react";
 
 const UserForm = () => {
@@ -8,7 +9,14 @@ const UserForm = () => {
   const [phone, setPhone] = useState("");
 
   const handleClick = () => {
-    console.log({ name, email, password, phone });
+    const url = `http://localhost:8080/api/v1/user`;
+    const data = {
+      fullName: name,
+      email: email,
+      password: password,
+      phone: phone,
+    };
+    axios.post(url, data);
   };
   return (
     <>
