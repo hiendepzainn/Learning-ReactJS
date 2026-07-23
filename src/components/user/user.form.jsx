@@ -3,7 +3,9 @@ import axios from "axios";
 import { useState } from "react";
 import { createUserAPI } from "../../services/api.service";
 
-const UserForm = () => {
+const UserForm = (props) => {
+  const { loadUser } = props;
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +27,7 @@ const UserForm = () => {
         description: "Tạo mới User thành công!",
       });
       resetValue();
+      await loadUser();
     } else {
       notification.error({
         message: "Error",
