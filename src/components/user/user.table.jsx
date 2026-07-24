@@ -3,7 +3,7 @@ import { Space, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
 
 const UserTable = (props) => {
-  const { data, loadUser } = props;
+  const { data, openModalUpdate, setUpdateData } = props;
 
   const columns = [
     {
@@ -21,11 +21,15 @@ const UserTable = (props) => {
     {
       title: "Action",
       // width: 100,
-      render: () => (
+      render: (_, record) => (
         <div>
           <EditTwoTone
             twoToneColor="#F28705"
             style={{ marginRight: "15px", cursor: "pointer" }}
+            onClick={() => {
+              openModalUpdate();
+              setUpdateData(record._id, record.fullName, record.phone);
+            }}
           />
           <DeleteTwoTone twoToneColor="#DB0000" style={{ cursor: "pointer" }} />
         </div>
