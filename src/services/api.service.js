@@ -16,6 +16,14 @@ const getAllUserAPI = () => {
   return axios.get(url);
 };
 
-const updateUserAPI = () => {};
+const updateUserAPI = (id, name, phone) => {
+  const url = `/api/v1/user`;
+  const data = {
+    _id: id,
+    fullName: name,
+    phone: phone,
+  };
+  return axios.put(url, data);
+};
 
 export { createUserAPI, updateUserAPI, getAllUserAPI };

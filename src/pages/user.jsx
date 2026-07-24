@@ -51,6 +51,7 @@ const UserPage = () => {
           updatePhone={updatePhone}
           setUpdateName={setUpdateName}
           setUpdatePhone={setUpdatePhone}
+          loadUser={loadUser}
         />
       </div>
     </>

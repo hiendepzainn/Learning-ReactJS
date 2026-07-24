@@ -1,5 +1,6 @@
-import { Input, Modal } from "antd";
+import { Input, Modal, notification } from "antd";
 import { useState } from "react";
+import { updateUserAPI } from "../../services/api.service";
 
 const UpdateUserModel = (props) => {
   const {
@@ -10,7 +11,26 @@ const UpdateUserModel = (props) => {
     updatePhone,
     setUpdateName,
     setUpdatePhone,
+    loadUser,
   } = props;
+
+  const handleSave = async () => {
+    const res = await updateUserAPI(updateID, updateName, updatePhone);
+    if (res.data) {
+      closeModalUpdate();
+      notification.success({
+        message: "Update user",
+        description: "Cập nhật User thành công!",
+      });
+      await loadUser();
+    } else {
+      closeModalUpdate();
+      notification.error({
+        message: "Error",
+        description: "Cập nhật User thất bại!",
+      });
+    }
+  };
   return (
     <>
       <Modal
@@ -18,6 +38,7 @@ const UpdateUserModel = (props) => {
         open={isModalUpdateOpen}
         onCancel={closeModalUpdate}
         okText={"Save"}
+        onOk={handleSave}
       >
         <div style={{ width: "97%" }}>
           <div>
@@ -44,7 +65,7 @@ const UpdateUserModel = (props) => {
                 <Input
                   value={updatePhone}
                   onChange={(e) => {
-                    updatePhone(e.target.value);
+                    setUpdatePhone(e.target.value);
                   }}
                 />
               </div>
