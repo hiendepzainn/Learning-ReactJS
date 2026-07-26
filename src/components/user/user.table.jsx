@@ -1,9 +1,10 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { Drawer, Space, Table, Tag } from "antd";
+import { Drawer, notification, Popconfirm, Space, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
+import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
-  const { data, openModalUpdate, setUpdateData } = props;
+  const { data, openModalUpdate, setUpdateData, loadUser } = props;
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
   const [idDrawer, setIdDrawer] = useState("");
@@ -18,6 +19,22 @@ const UserTable = (props) => {
     setPhoneDrawer(record.phone);
 
     setIsOpenDrawer(true);
+  };
+
+  const handleDelete = async (id) => {
+    const res = await deleteUserAPI(id);
+    if (res.data) {
+      notification.success({
+        message: "Delete user",
+        description: "Xóa User thành công!",
+      });
+      await loadUser();
+    } else {
+      notification.error({
+        message: "Error",
+        description: JSON.stringify(res.message),
+      });
+    }
   };
 
   const columns = [
@@ -49,7 +66,19 @@ const UserTable = (props) => {
               setUpdateData(record._id, record.fullName, record.phone);
             }}
           />
-          <DeleteTwoTone twoToneColor="#DB0000" style={{ cursor: "pointer" }} />
+          <Popconfirm
+            placement="left"
+            title="Xóa người dùng"
+            description="Bạn chắc chắn xóa User này?"
+            onConfirm={() => handleDelete(record._id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <DeleteTwoTone
+              twoToneColor="#DB0000"
+              style={{ cursor: "pointer" }}
+            />
+          </Popconfirm>
         </div>
       ),
     },

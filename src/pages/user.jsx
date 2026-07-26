@@ -42,6 +42,7 @@ const UserPage = () => {
           data={data}
           openModalUpdate={openModalUpdate}
           setUpdateData={setUpdateData}
+          loadUser={loadUser}
         />
         <UpdateUserModel
           isModalUpdateOpen={isModalUpdateOpen}
