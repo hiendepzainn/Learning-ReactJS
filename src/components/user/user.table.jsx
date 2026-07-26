@@ -11,12 +11,14 @@ const UserTable = (props) => {
   const [nameDrawer, setNameDrawer] = useState("");
   const [emailDrawer, setEmailDrawer] = useState("");
   const [phoneDrawer, setPhoneDrawer] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   const handleClickID = (record) => {
     setIdDrawer(record._id);
     setNameDrawer(record.fullName);
     setEmailDrawer(record.email);
     setPhoneDrawer(record.phone);
+    setAvatar(record.avatar);
 
     setIsOpenDrawer(true);
   };
@@ -102,7 +104,13 @@ const UserTable = (props) => {
         <p style={{ marginBottom: "7px" }}>ID: {idDrawer}</p>
         <p style={{ marginBottom: "7px" }}>Full name: {nameDrawer}</p>
         <p style={{ marginBottom: "7px" }}>Email: {emailDrawer}</p>
-        <p>Phone number: {phoneDrawer}</p>
+        <p style={{ marginBottom: "7px" }}>Phone number: {phoneDrawer}</p>
+        <p style={{ marginBottom: "7px" }}>Avatar:</p>
+        <img
+          style={{ width: "30%", border: "1px solid #ccc" }}
+          src={`${import.meta.env.VITE_BACKEND_URL}/images/avatar/${avatar}`}
+          alt="avatar"
+        />
       </Drawer>
     </>
   );
