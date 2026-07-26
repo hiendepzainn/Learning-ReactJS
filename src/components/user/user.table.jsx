@@ -1,6 +1,6 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { Drawer, notification, Popconfirm, Space, Table, Tag } from "antd";
-import { useEffect, useState } from "react";
+import { Drawer, notification, Popconfirm, Table } from "antd";
+import { useState } from "react";
 import { deleteUserAPI } from "../../services/api.service";
 
 const UserTable = (props) => {
