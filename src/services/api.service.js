@@ -26,9 +26,39 @@ const updateUserAPI = (id, name, phone) => {
   return axios.put(url, data);
 };
 
+const updateUserWithAvatarAPI = (id, name, phone, avatar) => {
+  const url = `/api/v1/user`;
+  const data = {
+    _id: id,
+    fullName: name,
+    phone: phone,
+    avatar: avatar,
+  };
+  return axios.put(url, data);
+};
+
 const deleteUserAPI = (id) => {
   const url = `/api/v1/user/${id}`;
   return axios.delete(url);
 };
 
-export { createUserAPI, updateUserAPI, getAllUserAPI, deleteUserAPI };
+const uploadFileAPI = (file) => {
+  const url = `/api/v1/file/upload`;
+  const formData = new FormData();
+  formData.append("fileImg", file);
+
+  return axios.post(url, formData, {
+    headers: {
+      "upload-type": "avatar",
+    },
+  });
+};
+
+export {
+  createUserAPI,
+  updateUserAPI,
+  getAllUserAPI,
+  deleteUserAPI,
+  uploadFileAPI,
+  updateUserWithAvatarAPI,
+};

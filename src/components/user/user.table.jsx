@@ -1,7 +1,11 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { Drawer, notification, Popconfirm, Table } from "antd";
+import { Button, Drawer, notification, Popconfirm, Table } from "antd";
 import { useState } from "react";
-import { deleteUserAPI } from "../../services/api.service";
+import {
+  deleteUserAPI,
+  updateUserWithAvatarAPI,
+  uploadFileAPI,
+} from "../../services/api.service";
 
 const UserTable = (props) => {
   const { data, openModalUpdate, setUpdateData, loadUser } = props;
@@ -12,6 +16,9 @@ const UserTable = (props) => {
   const [emailDrawer, setEmailDrawer] = useState("");
   const [phoneDrawer, setPhoneDrawer] = useState("");
   const [avatar, setAvatar] = useState("");
+
+  const [file, setFile] = useState(null);
+  const [urlPreview, setUrlPreview] = useState("");
 
   const handleClickID = (record) => {
     setIdDrawer(record._id);
@@ -86,6 +93,41 @@ const UserTable = (props) => {
     },
   ];
 
+  const handleChangeFile = (e) => {
+    const newFile = e.target.files[0];
+    setFile(newFile);
+    const url = URL.createObjectURL(newFile);
+    setUrlPreview(url);
+  };
+
+  const handleSave = async () => {
+    console.log(file);
+    const res1 = await uploadFileAPI(file);
+    const fileNameAvatar = res1.data.fileUploaded;
+    const res2 = await updateUserWithAvatarAPI(
+      idDrawer,
+      nameDrawer,
+      phoneDrawer,
+      fileNameAvatar,
+    );
+
+    if (res2.data) {
+      setIsOpenDrawer(false);
+      notification.success({
+        message: "Update Avatar",
+        description: "Cập nhật Avatar thành công!",
+      });
+      setUrlPreview("");
+      loadUser();
+    } else {
+      setIsOpenDrawer(false);
+      notification.error({
+        message: "Error",
+        description: "Cập nhật Avatar thất bại!",
+      });
+    }
+  };
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -107,10 +149,48 @@ const UserTable = (props) => {
         <p style={{ marginBottom: "7px" }}>Phone number: {phoneDrawer}</p>
         <p style={{ marginBottom: "7px" }}>Avatar:</p>
         <img
-          style={{ width: "30%", border: "1px solid #ccc" }}
+          style={{
+            width: "30%",
+            border: "1px solid #ccc",
+            marginBottom: "10px",
+          }}
           src={`${import.meta.env.VITE_BACKEND_URL}/images/avatar/${avatar}`}
           alt="avatar"
         />
+        <br />
+        <label
+          style={{
+            background: "#f19c52",
+            padding: "5px 10px",
+            borderRadius: "5px",
+            color: "white",
+            cursor: "pointer",
+          }}
+          htmlFor="fileInput"
+        >
+          Upload Avatar
+        </label>
+        <input hidden id="fileInput" type="file" onChange={handleChangeFile} />
+        {urlPreview == "" ? (
+          <></>
+        ) : (
+          <div style={{ marginTop: "15px" }}>
+            <p style={{ marginBottom: "5px" }}>New avatar preview:</p>
+            <img
+              style={{
+                width: "30%",
+                border: "1px solid #ccc",
+                marginBottom: "5px",
+              }}
+              src={urlPreview}
+              alt="avatar"
+            />
+            <br />
+            <Button type="primary" onClick={handleSave}>
+              Save
+            </Button>
+          </div>
+        )}
       </Drawer>
     </>
   );
