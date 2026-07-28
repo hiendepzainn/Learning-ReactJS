@@ -11,6 +11,8 @@ const UpdateUserModel = (props) => {
     setUpdateName,
     setUpdatePhone,
     loadUser,
+    page,
+    pageSizeDefault,
   } = props;
 
   const handleSave = async () => {
@@ -21,7 +23,7 @@ const UpdateUserModel = (props) => {
         message: "Update user",
         description: "Cập nhật User thành công!",
       });
-      await loadUser();
+      await loadUser(page, pageSizeDefault);
     } else {
       closeModalUpdate();
       notification.error({

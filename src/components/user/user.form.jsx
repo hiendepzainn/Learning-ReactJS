@@ -3,7 +3,7 @@ import { useState } from "react";
 import { createUserAPI } from "../../services/api.service";
 
 const UserForm = (props) => {
-  const { loadUser } = props;
+  const { loadUser, page, pageSizeDefault } = props;
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,7 +26,7 @@ const UserForm = (props) => {
         description: "Tạo mới User thành công!",
       });
       resetValue();
-      await loadUser();
+      await loadUser(page, pageSizeDefault);
     } else {
       notification.error({
         message: "Error",

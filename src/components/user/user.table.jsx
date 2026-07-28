@@ -1,5 +1,12 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { Button, Drawer, notification, Popconfirm, Table } from "antd";
+import {
+  Button,
+  Drawer,
+  notification,
+  Pagination,
+  Popconfirm,
+  Table,
+} from "antd";
 import { useState } from "react";
 import {
   deleteUserAPI,
@@ -8,7 +15,16 @@ import {
 } from "../../services/api.service";
 
 const UserTable = (props) => {
-  const { data, openModalUpdate, setUpdateData, loadUser } = props;
+  const {
+    data,
+    openModalUpdate,
+    setUpdateData,
+    loadUser,
+    pageSizeDefault,
+    page,
+    total,
+    setPage,
+  } = props;
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
   const [idDrawer, setIdDrawer] = useState("");
@@ -37,7 +53,7 @@ const UserTable = (props) => {
         message: "Delete user",
         description: "Xóa User thành công!",
       });
-      await loadUser();
+      await loadUser(page, pageSizeDefault);
     } else {
       notification.error({
         message: "Error",
@@ -47,6 +63,12 @@ const UserTable = (props) => {
   };
 
   const columns = [
+    {
+      title: "STT",
+      render: (value, record, index) => {
+        return <div>{(page - 1) * pageSizeDefault + index + 1}</div>;
+      },
+    },
     {
       title: "ID",
       dataIndex: "_id",
@@ -128,14 +150,32 @@ const UserTable = (props) => {
     }
   };
 
+  const changePagination = async (page, pageSize) => {
+    setPage(page);
+    await loadUser(page, pageSize);
+  };
+
   return (
     <>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Table
-          style={{ width: "97vw" }}
+          style={{ width: "97vw", marginBottom: "15px" }}
           columns={columns}
           dataSource={data}
           rowKey={"_id"}
+          pagination={false}
+        />
+      </div>
+      <div style={{ display: "flex", justifyContent: "end" }}>
+        <Pagination
+          style={{ marginBottom: "70px", marginRight: "20px" }}
+          total={total}
+          showTotal={(total, range) =>
+            `${range[0]}-${range[1]} trên ${total} Users`
+          }
+          defaultPageSize={pageSizeDefault}
+          defaultCurrent={page}
+          onChange={changePagination}
         />
       </div>
       <Drawer

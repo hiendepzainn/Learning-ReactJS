@@ -54,6 +54,12 @@ const uploadFileAPI = (file) => {
   });
 };
 
+const getUserPagination = (page, pageSize) => {
+  const url = `/api/v1/user?current=${page}&pageSize=${pageSize}`;
+
+  return axios.get(url);
+};
+
 export {
   createUserAPI,
   updateUserAPI,
@@ -61,4 +67,5 @@ export {
   deleteUserAPI,
   uploadFileAPI,
   updateUserWithAvatarAPI,
+  getUserPagination,
 };
