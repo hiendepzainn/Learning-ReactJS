@@ -1,7 +1,29 @@
-import { Button, Col, Form, Input, Row } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Col, Form, Input, message, Row } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUserAPI } from "../services/api.service";
+import { useState } from "react";
 
 const LoginPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const onFinish = async (data) => {
+    setIsLoading(true);
+
+    const res = await loginUserAPI(data.username, data.password);
+
+    if (res.data) {
+      message.success("Login success!");
+      navigate("/");
+    } else {
+      message.error("Login failed!");
+      setIsLoading(false);
+    }
+  };
+
+  const onFinishFailed = (error) => {
+    console.log("Failed, error:", error);
+  };
   return (
     <>
       <Row justify="center">
@@ -14,11 +36,15 @@ const LoginPage = () => {
               marginTop: "50px",
             }}
           >
-            <Form layout="vertical">
+            <Form
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              layout="vertical"
+            >
               <h3 style={{ textAlign: "center" }}>Đăng nhập</h3>
               <Form.Item
                 label="Email"
-                name="email"
+                name="username"
                 rules={[
                   { required: true, message: "Vui lòng nhập email" },
                   { type: "email", message: "Email không đúng định dạng" },
@@ -45,7 +71,7 @@ const LoginPage = () => {
                   alignItems: "center",
                 }}
               >
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isLoading}>
                   Login
                 </Button>
                 <Link to="/">Go to homepage ⭢</Link>
