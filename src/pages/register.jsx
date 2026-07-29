@@ -1,9 +1,33 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, notification } from "antd";
+import { registerUserAPI } from "../services/api.service";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
-  const onFinishSuccess = (data) => {
-    console.log("Success!, data:", data);
+  const navigate = useNavigate();
+
+  const onFinishSuccess = async (data) => {
+    const res = await registerUserAPI(
+      data.fullName,
+      data.email,
+      data.password,
+      data.phone,
+    );
+
+    if (res.data) {
+      notification.success({
+        message: "Register user",
+        description: "Đăng ký User thành công!",
+      });
+
+      navigate("/login");
+    } else {
+      notification.error({
+        message: "Error",
+        description: JSON.stringify(res.message),
+      });
+    }
   };
+
   const onFinishFailed = (dataFailed) => {
     console.log("Failed, errorInfor:", dataFailed);
   };
@@ -26,26 +50,139 @@ const RegisterPage = () => {
             <Form.Item
               label="Full name"
               name="fullName"
-              rules={[{ required: true }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập họ và tên",
+                },
+                {
+                  validator: (_, value) => {
+                    if (!value) return Promise.resolve();
+
+                    if (/\d/.test(value)) {
+                      return Promise.reject(
+                        new Error("Họ và tên không được chứa chữ số"),
+                      );
+                    }
+
+                    return Promise.resolve();
+                  },
+                },
+              ]}
             >
               <Input />
             </Form.Item>
-            <Form.Item label="Email" name="email" rules={[{ required: true }]}>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: "Vui lòng nhập email" },
+                { type: "email", message: "Email không đúng định dạng" },
+              ]}
+            >
               <Input />
             </Form.Item>
             <Form.Item
               label="Password"
               name="password"
-              rules={[{ required: true }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập mật khẩu",
+                },
+                {
+                  validator: (_, value) => {
+                    if (!value) return Promise.resolve();
+
+                    if (value.length < 6) {
+                      return Promise.reject(
+                        new Error("Mật khẩu phải có ít nhất 6 ký tự"),
+                      );
+                    }
+
+                    if (value.length > 20) {
+                      return Promise.reject(
+                        new Error("Mật khẩu không được quá 20 ký tự"),
+                      );
+                    }
+
+                    if (!/[a-z]/.test(value)) {
+                      return Promise.reject(
+                        new Error("Mật khẩu phải chứa ít nhất 1 chữ thường"),
+                      );
+                    }
+
+                    if (!/[A-Z]/.test(value)) {
+                      return Promise.reject(
+                        new Error("Mật khẩu phải chứa ít nhất 1 chữ hoa"),
+                      );
+                    }
+
+                    if (!/\d/.test(value)) {
+                      return Promise.reject(
+                        new Error("Mật khẩu phải chứa ít nhất 1 chữ số"),
+                      );
+                    }
+
+                    if (!/[ !"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~]/.test(value)) {
+                      return Promise.reject(
+                        new Error(
+                          "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt",
+                        ),
+                      );
+                    }
+
+                    return Promise.resolve();
+                  },
+                },
+              ]}
             >
-              <Input.Password />
+              <Input.Password maxLength={20} />
             </Form.Item>
             <Form.Item
               label="Phone number"
               name="phone"
-              rules={[{ required: true }]}
+              rules={[
+                {
+                  required: true,
+                  message: "Vui lòng nhập số điện thoại",
+                },
+                {
+                  validator: (_, value) => {
+                    if (!value) return Promise.resolve();
+
+                    if (/\s/.test(value)) {
+                      return Promise.reject(
+                        new Error("Số điện thoại không được chứa khoảng trắng"),
+                      );
+                    }
+
+                    if (!/^\d+$/.test(value)) {
+                      return Promise.reject(
+                        new Error("Số điện thoại chỉ được chứa chữ số"),
+                      );
+                    }
+
+                    if (value.length !== 10) {
+                      return Promise.reject(
+                        new Error("Số điện thoại phải có đúng 10 chữ số"),
+                      );
+                    }
+
+                    if (!/^(03|05|07|08|09)/.test(value)) {
+                      return Promise.reject(
+                        new Error(
+                          "Số điện thoại phải bắt đầu bằng 03, 05, 07, 08 hoặc 09",
+                        ),
+                      );
+                    }
+
+                    return Promise.resolve();
+                  },
+                },
+              ]}
             >
-              <Input />
+              <Input maxLength={10} />
             </Form.Item>
             <Button type="primary" htmlType="submit">
               Register

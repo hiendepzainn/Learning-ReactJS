@@ -60,6 +60,17 @@ const getUserPagination = (page, pageSize) => {
   return axios.get(url);
 };
 
+const registerUserAPI = (name, email, password, phone) => {
+  const url = `/api/v1/user/register`;
+  const data = {
+    fullName: name,
+    email: email,
+    password: password,
+    phone: phone,
+  };
+  return axios.post(url, data);
+};
+
 export {
   createUserAPI,
   updateUserAPI,
@@ -68,4 +79,5 @@ export {
   uploadFileAPI,
   updateUserWithAvatarAPI,
   getUserPagination,
+  registerUserAPI,
 };
