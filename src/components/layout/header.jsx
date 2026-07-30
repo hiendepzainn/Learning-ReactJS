@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { Menu } from "antd";
 import {
+  AliwangwangOutlined,
   GroupOutlined,
   HomeOutlined,
-  SettingOutlined,
+  LoginOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { useContext } from "react";
@@ -30,15 +31,22 @@ const Header = () => {
       label: <Link to="/books">Books</Link>,
       icon: <GroupOutlined />,
     },
-    {
-      label: "Setting",
-      key: "SubMenu",
-      icon: <SettingOutlined />,
-      children: [
-        { label: <Link to="/login">Đăng nhập</Link>, key: "login" },
-        { label: <Link>Đăng xuất</Link>, key: "logout" },
-      ],
-    },
+    ...(user == null
+      ? [
+          {
+            key: "login",
+            label: <Link to="/login">Login</Link>,
+            icon: <LoginOutlined />,
+          },
+        ]
+      : [
+          {
+            label: "Welcome acxyz",
+            key: "welcome",
+            icon: <AliwangwangOutlined />,
+            children: [{ label: <Link>Logout</Link>, key: "logout" }],
+          },
+        ]),
   ];
   return (
     <>
