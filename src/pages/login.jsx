@@ -1,11 +1,14 @@
 import { Button, Col, Form, Input, message, Row } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUserAPI } from "../services/api.service";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../Goat";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const { setUser } = useContext(AuthContext);
 
   const onFinish = async (data) => {
     setIsLoading(true);
@@ -14,6 +17,7 @@ const LoginPage = () => {
 
     if (res.data) {
       message.success("Login success!");
+      setUser(res.data.user);
       navigate("/");
     } else {
       message.error("Login failed!");

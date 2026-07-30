@@ -6,8 +6,14 @@ import {
   SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { useContext } from "react";
+import { AuthContext } from "../../Goat";
 
 const Header = () => {
+  const { user } = useContext(AuthContext);
+
+  console.log("check user:", user);
+
   const items = [
     {
       key: "home",
