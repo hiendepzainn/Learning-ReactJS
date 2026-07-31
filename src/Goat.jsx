@@ -7,6 +7,7 @@ import UserPage from "./pages/user.jsx";
 import BookPage from "./pages/book.jsx";
 import LoginPage from "./pages/login.jsx";
 import RegisterPage from "./pages/register.jsx";
+import PrivateRoute from "./PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,11 +18,19 @@ const router = createBrowserRouter([
       { index: true, element: <TodoApp /> },
       {
         path: "users",
-        element: <UserPage />,
+        element: (
+          <PrivateRoute>
+            <UserPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "books",
-        element: <BookPage />,
+        element: (
+          <PrivateRoute>
+            <BookPage />
+          </PrivateRoute>
+        ),
       },
     ],
   },
