@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Menu } from "antd";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, message } from "antd";
 import {
   AliwangwangOutlined,
   GroupOutlined,
@@ -11,9 +11,19 @@ import { useContext } from "react";
 import { AuthContext } from "../../Goat";
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(AuthContext);
 
   console.log("check user:", user);
+
+  const location = useLocation();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setUser(null);
+    navigate(`${location.pathname}`);
+    message.success("Logout success!");
+  };
 
   const items = [
     {
@@ -41,10 +51,15 @@ const Header = () => {
         ]
       : [
           {
-            label: "Welcome acxyz",
+            label: `Welcome ${user.fullName}`,
             key: "welcome",
             icon: <AliwangwangOutlined />,
-            children: [{ label: <Link>Logout</Link>, key: "logout" }],
+            children: [
+              {
+                label: <div onClick={handleLogout}>Logout</div>,
+                key: "logout",
+              },
+            ],
           },
         ]),
   ];
