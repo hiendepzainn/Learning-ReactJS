@@ -18,6 +18,7 @@ const LoginPage = () => {
     if (res.data) {
       message.success("Login success!");
       setUser(res.data.user);
+      localStorage.setItem("access_token", res.data.access_token);
       navigate("/");
     } else {
       message.error("Login failed!");
