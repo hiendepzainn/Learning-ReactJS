@@ -1,7 +1,17 @@
+import BookForm from "../components/book/book.form";
+import BookTable from "../components/book/book.table";
+
 const BookPage = () => {
   return (
     <>
-      <div>Book Page hehe</div>
+      <div
+        style={{ marginTop: "25px", display: "flex", justifyContent: "center" }}
+      >
+        <div style={{ width: "95%" }}>
+          <BookForm />
+          <BookTable />
+        </div>
+      </div>
     </>
   );
 };
