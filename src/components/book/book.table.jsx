@@ -3,12 +3,24 @@ import { Pagination, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getBooksPaginate } from "../../services/api.book";
+import TableDrawer from "./book.table.drawer";
 
 const BookTable = () => {
   const [total, setTotal] = useState(0);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(4);
   const [data, setData] = useState([]);
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [dataDrawer, setDataDrawer] = useState(null);
+
+  const openDrawer = (record) => {
+    setDataDrawer(record);
+    setIsOpenDrawer(true);
+  };
+
+  const closeDrawer = () => {
+    setIsOpenDrawer(false);
+  };
 
   const columns = [
     {
@@ -22,8 +34,16 @@ const BookTable = () => {
       title: "ID",
       dataIndex: "_id",
       key: "id",
-      render: (value) => {
-        return <Link>{value}</Link>;
+      render: (value, record) => {
+        return (
+          <Link
+            onClick={() => {
+              openDrawer(record);
+            }}
+          >
+            {value}
+          </Link>
+        );
       },
     },
     {
@@ -113,6 +133,11 @@ const BookTable = () => {
           onChange={handleChangePagination}
         />
       </div>
+      <TableDrawer
+        dataDrawer={dataDrawer}
+        isOpenDrawer={isOpenDrawer}
+        closeDrawer={closeDrawer}
+      />
     </>
   );
 };
