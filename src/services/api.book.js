@@ -5,4 +5,24 @@ const getBooksPaginate = (current, pageSize) => {
   return axios.get(url);
 };
 
-export { getBooksPaginate };
+const uploadThumbnail = (file) => {
+  const url = `api/v1/file/upload`;
+  const data = new FormData();
+  data.append("fileImg", file);
+  return axios.post(url, data, { headers: { "upload-type": "book" } });
+};
+
+const createNewBook = (
+  thumbnail,
+  mainText,
+  author,
+  price,
+  quantity,
+  category,
+) => {
+  const url = `api/v1/book`;
+  const data = { thumbnail, mainText, author, price, quantity, category };
+  return axios.post(url, data);
+};
+
+export { getBooksPaginate, uploadThumbnail, createNewBook };

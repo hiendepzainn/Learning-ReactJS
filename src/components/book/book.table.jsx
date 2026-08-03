@@ -2,14 +2,12 @@ import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
 import { Pagination, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getBooksPaginate } from "../../services/api.book";
 import TableDrawer from "./book.table.drawer";
 
-const BookTable = () => {
-  const [total, setTotal] = useState(0);
-  const [current, setCurrent] = useState(1);
-  const [pageSize, setPageSize] = useState(4);
-  const [data, setData] = useState([]);
+const BookTable = (props) => {
+  const { data, loadBooks, total, current, pageSize, setCurrent, setPageSize } =
+    props;
+
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [dataDrawer, setDataDrawer] = useState(null);
 
@@ -92,15 +90,6 @@ const BookTable = () => {
       width: "8%",
     },
   ];
-
-  const loadBooks = async (current, pageSize) => {
-    const res = await getBooksPaginate(current, pageSize);
-
-    if (res.data) {
-      setTotal(res.data.meta.total);
-      setData(res.data.result);
-    }
-  };
 
   const handleChangePagination = (page, pageSize) => {
     setCurrent(page);
