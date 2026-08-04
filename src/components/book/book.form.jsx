@@ -1,6 +1,6 @@
 import { Button } from "antd";
 import { useState } from "react";
-import FormModal from "./book.form.modal";
+import FormModalUnControl from "./book.form.modal2";
 
 const BookForm = (props) => {
   const { loadBooks, current, pageSize } = props;
@@ -24,12 +24,19 @@ const BookForm = (props) => {
         <Button type="primary" onClick={handleClick}>
           Create Book
         </Button>
-        <FormModal
+        {/* <FormModalControl
           isModalOpen={isModalOpen}
           setIsModelOpen={setIsModelOpen}
           loadBooks={loadBooks}
           current={current}
           pageSize={pageSize}
+        /> */}
+        <FormModalUnControl
+          isModalOpen={isModalOpen}
+          setIsModelOpen={setIsModelOpen}
+          current={current}
+          pageSize={pageSize}
+          loadBooks={loadBooks}
         />
       </div>
     </>

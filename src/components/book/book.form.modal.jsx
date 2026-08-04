@@ -2,7 +2,7 @@ import { Button, Input, Modal, notification, Select } from "antd";
 import { useState } from "react";
 import { createNewBook, uploadThumbnail } from "../../services/api.book";
 
-const FormModal = (props) => {
+const FormModalControl = (props) => {
   const { isModalOpen, setIsModelOpen, loadBooks, current, pageSize } = props;
 
   const [mainText, setMainText] = useState("");
@@ -189,4 +189,4 @@ const FormModal = (props) => {
   );
 };
 
-export default FormModal;
+export default FormModalControl;
