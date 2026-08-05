@@ -22,23 +22,82 @@ const UpdateModalUnControl = (props) => {
             <Input disabled />
           </Form.Item>
 
-          <Form.Item label="Tiêu đề" name="mainText" rules={[]}>
+          <Form.Item
+            label="Tiêu đề"
+            name="mainText"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng không được để trống!",
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
 
-          <Form.Item label="Tác giả" name="author" rules={[]}>
+          <Form.Item
+            label="Tác giả"
+            name="author"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng không được để trống!",
+              },
+              {
+                pattern: /^[a-zA-ZÀ-ỹ\s]+$/,
+                message: "Chỉ được phép điền ký tự chữ!",
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
 
-          <Form.Item label="Giá tiền (đ)" name="price" rules={[]}>
+          <Form.Item
+            label="Giá tiền (đ)"
+            name="price"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng không được để trống!",
+              },
+              {
+                pattern: /^\d+$/,
+                message:
+                  "Chỉ được phép điền chữ số và không chứa khoảng trắng!",
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
 
-          <Form.Item label="Số lượng" name="quantity" rules={[]}>
+          <Form.Item
+            label="Số lượng"
+            name="quantity"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng không được để trống!",
+              },
+              {
+                pattern: /^\d+$/,
+                message:
+                  "Chỉ được phép điền chữ số và không chứa khoảng trắng!",
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
 
-          <Form.Item label="Thể loại" name="category" rules={[]}>
+          <Form.Item
+            label="Thể loại"
+            name="category"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng không được để trống!",
+              },
+            ]}
+          >
             <Select
               style={{ width: "100%" }}
               options={[
