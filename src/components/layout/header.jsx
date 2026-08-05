@@ -7,10 +7,11 @@ import {
   LoginOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Goat";
 
 const Header = () => {
+  const [key, setKey] = useState("");
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
 
@@ -63,9 +64,24 @@ const Header = () => {
           },
         ]),
   ];
+
+  useEffect(() => {
+    console.log(location.pathname);
+    switch (location.pathname) {
+      case "/books":
+        setKey("books");
+        break;
+      case "/users":
+        setKey("users");
+        break;
+      case "/":
+        setKey("home");
+        break;
+    }
+  }, [location]);
   return (
     <>
-      <Menu items={items} mode="horizontal" />
+      <Menu items={items} mode="horizontal" selectedKeys={[key]} />
     </>
   );
 };
