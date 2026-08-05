@@ -3,7 +3,8 @@ import { Pagination, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TableDrawer from "./book.table.drawer";
-import UpdateModal from "./book.table.update";
+import UpdateModalUnControl from "./book.table.update2";
+// import UpdateModal from "./book.table.update";
 
 const BookTable = (props) => {
   const { data, loadBooks, total, current, pageSize, setCurrent, setPageSize } =
@@ -11,17 +12,21 @@ const BookTable = (props) => {
 
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [dataDrawer, setDataDrawer] = useState(null);
+  //-------------------------------Controlled-component------------------
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // const [id, setId] = useState("");
+  // const [mainText, setMainText] = useState("");
+  // const [author, setAuthor] = useState("");
+  // const [price, setPrice] = useState("");
+  // const [quantity, setQuantity] = useState("");
+  // const [category, setCategory] = useState("");
+
+  // const [preview, setPreview] = useState("");
+  // const [thumbnail, setThumbnail] = useState("");
+  //-------------------------------Controlled-component------------------
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [id, setId] = useState("");
-  const [mainText, setMainText] = useState("");
-  const [author, setAuthor] = useState("");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [category, setCategory] = useState("");
-
-  const [preview, setPreview] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
 
   const openDrawer = (record) => {
     setDataDrawer(record);
@@ -88,13 +93,14 @@ const BookTable = (props) => {
     {
       title: "Action",
       key: "action",
-      render: (record) => {
+      render: () => {
         return (
           <>
             <EditTwoTone
               style={{ marginRight: "15px", cursor: "pointer" }}
               twoToneColor="#f0a12c"
-              onClick={() => handleClickUpdate(record)}
+              // onClick={() => handleClickUpdate(record)}
+              onClick={() => setIsModalOpen(true)}
             />
             <DeleteTwoTone twoToneColor="#f71b22" />
           </>
@@ -109,20 +115,20 @@ const BookTable = (props) => {
     setPageSize(pageSize);
   };
 
-  const handleClickUpdate = (record) => {
-    setIsModalOpen(true);
-    setId(record._id);
-    setMainText(record.mainText);
-    setAuthor(record.author);
-    setCategory(record.category);
-    setQuantity(record.quantity);
-    setPrice(record.price);
+  // const handleClickUpdate = (record) => {
+  //   setIsModalOpen(true);
+  //   setId(record._id);
+  //   setMainText(record.mainText);
+  //   setAuthor(record.author);
+  //   setCategory(record.category);
+  //   setQuantity(record.quantity);
+  //   setPrice(record.price);
 
-    setPreview(
-      `${import.meta.env.VITE_BACKEND_URL}/images/book/${record.thumbnail}`,
-    );
-    setThumbnail(record.thumbnail);
-  };
+  //   setPreview(
+  //     `${import.meta.env.VITE_BACKEND_URL}/images/book/${record.thumbnail}`,
+  //   );
+  //   setThumbnail(record.thumbnail);
+  // };
 
   useEffect(() => {
     loadBooks(current, pageSize);
@@ -158,7 +164,7 @@ const BookTable = (props) => {
         closeDrawer={closeDrawer}
       />
 
-      <UpdateModal
+      {/* <UpdateModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         id={id}
@@ -178,6 +184,11 @@ const BookTable = (props) => {
         loadBooks={loadBooks}
         current={current}
         pageSize={pageSize}
+      /> */}
+
+      <UpdateModalUnControl
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
       />
     </>
   );
