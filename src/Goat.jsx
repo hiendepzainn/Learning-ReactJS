@@ -8,6 +8,7 @@ import BookPage from "./pages/book.jsx";
 import LoginPage from "./pages/login.jsx";
 import RegisterPage from "./pages/register.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
+import "nprogress/nprogress.css";
 
 const router = createBrowserRouter([
   {
