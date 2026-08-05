@@ -1,5 +1,5 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { Pagination, Table } from "antd";
+import { Form, Pagination, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TableDrawer from "./book.table.drawer";
@@ -26,7 +26,11 @@ const BookTable = (props) => {
   // const [thumbnail, setThumbnail] = useState("");
   //-------------------------------Controlled-component------------------
 
+  //-------------------------------UnControlled-component------------------
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [form] = Form.useForm();
+  //-------------------------------UnControlled-component------------------
 
   const openDrawer = (record) => {
     setDataDrawer(record);
@@ -93,14 +97,14 @@ const BookTable = (props) => {
     {
       title: "Action",
       key: "action",
-      render: () => {
+      render: (record) => {
         return (
           <>
             <EditTwoTone
               style={{ marginRight: "15px", cursor: "pointer" }}
               twoToneColor="#f0a12c"
               // onClick={() => handleClickUpdate(record)}
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => handleClick(record)}
             />
             <DeleteTwoTone twoToneColor="#f71b22" />
           </>
@@ -129,6 +133,18 @@ const BookTable = (props) => {
   //   );
   //   setThumbnail(record.thumbnail);
   // };
+
+  const handleClick = (record) => {
+    setIsModalOpen(true);
+    form.setFieldsValue({
+      id: record._id,
+      mainText: record.mainText,
+      author: record.author,
+      price: record.price,
+      quantity: record.quantity,
+      category: record.category,
+    });
+  };
 
   useEffect(() => {
     loadBooks(current, pageSize);
@@ -189,6 +205,7 @@ const BookTable = (props) => {
       <UpdateModalUnControl
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
+        form={form}
       />
     </>
   );

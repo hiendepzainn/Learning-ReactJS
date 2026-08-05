@@ -1,7 +1,7 @@
 import { Form, Input, Modal, Select } from "antd";
 
 const UpdateModalUnControl = (props) => {
-  const { isModalOpen, setIsModalOpen } = props;
+  const { isModalOpen, setIsModalOpen, form } = props;
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -17,7 +17,7 @@ const UpdateModalUnControl = (props) => {
         onOk={onOk}
         onCancel={closeModal}
       >
-        <Form layout="vertical">
+        <Form layout="vertical" form={form}>
           <Form.Item label="ID" name="id" rules={[]}>
             <Input disabled />
           </Form.Item>
