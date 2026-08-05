@@ -47,4 +47,15 @@ const updateBook = (
   return axios.put(url, data);
 };
 
-export { getBooksPaginate, uploadThumbnail, createNewBook, updateBook };
+const deleteBook = (id) => {
+  const url = `api/v1/book/${id}`;
+  return axios.delete(url);
+};
+
+export {
+  getBooksPaginate,
+  uploadThumbnail,
+  createNewBook,
+  updateBook,
+  deleteBook,
+};

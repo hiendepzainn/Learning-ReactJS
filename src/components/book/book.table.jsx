@@ -1,9 +1,10 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { Form, Pagination, Table } from "antd";
+import { Form, message, Pagination, Popconfirm, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TableDrawer from "./book.table.drawer";
 import UpdateModalUnControl from "./book.table.update2";
+import { deleteBook } from "../../services/api.book";
 // import UpdateModal from "./book.table.update";
 
 const BookTable = (props) => {
@@ -108,7 +109,16 @@ const BookTable = (props) => {
               // onClick={() => handleClickUpdate(record)}
               onClick={() => handleClick(record)}
             />
-            <DeleteTwoTone twoToneColor="#f71b22" />
+            <Popconfirm
+              placement="left"
+              title="Delete Book"
+              description="Are you sure to Delete this Book?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => handleDeleteBook(record._id)}
+            >
+              <DeleteTwoTone twoToneColor="#f71b22" />
+            </Popconfirm>
           </>
         );
       },
@@ -151,6 +161,16 @@ const BookTable = (props) => {
       `${import.meta.env.VITE_BACKEND_URL}/images/book/${record.thumbnail}`,
     );
     setThumbnail(record.thumbnail);
+  };
+
+  const handleDeleteBook = async (id) => {
+    const res = await deleteBook(id);
+    if (res.data) {
+      message.success("Delete successful!");
+      loadBooks(current, pageSize);
+    } else {
+      message.error("Error!");
+    }
   };
 
   useEffect(() => {
