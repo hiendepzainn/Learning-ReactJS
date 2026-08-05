@@ -30,6 +30,8 @@ const BookTable = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [form] = Form.useForm();
+  const [preview, setPreview] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
   //-------------------------------UnControlled-component------------------
 
   const openDrawer = (record) => {
@@ -144,6 +146,11 @@ const BookTable = (props) => {
       quantity: record.quantity,
       category: record.category,
     });
+
+    setPreview(
+      `${import.meta.env.VITE_BACKEND_URL}/images/book/${record.thumbnail}`,
+    );
+    setThumbnail(record.thumbnail);
   };
 
   useEffect(() => {
@@ -206,6 +213,12 @@ const BookTable = (props) => {
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
         form={form}
+        preview={preview}
+        setPreview={setPreview}
+        thumbnail={thumbnail}
+        loadBooks={loadBooks}
+        current={current}
+        pageSize={pageSize}
       />
     </>
   );
