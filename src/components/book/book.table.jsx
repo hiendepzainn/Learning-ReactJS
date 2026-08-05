@@ -1,8 +1,17 @@
 import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
-import { Input, Modal, Pagination, Select, Table } from "antd";
+import {
+  Button,
+  Input,
+  Modal,
+  notification,
+  Pagination,
+  Select,
+  Table,
+} from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import TableDrawer from "./book.table.drawer";
+import { updateBook, uploadThumbnail } from "../../services/api.book";
 
 const BookTable = (props) => {
   const { data, loadBooks, total, current, pageSize, setCurrent, setPageSize } =
@@ -12,11 +21,16 @@ const BookTable = (props) => {
   const [dataDrawer, setDataDrawer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [id, setId] = useState("");
   const [mainText, setMainText] = useState("");
   const [author, setAuthor] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState("");
+
+  const [preview, setPreview] = useState("");
+  const [file, setFile] = useState(null);
+  const [thumbnail, setThumbnail] = useState("");
 
   const openDrawer = (record) => {
     setDataDrawer(record);
@@ -104,7 +118,43 @@ const BookTable = (props) => {
     setPageSize(pageSize);
   };
 
-  const handleUpdate = () => {};
+  const handleUpdate = async () => {
+    if (mainText == "" || price == "" || author == "" || quantity == "") {
+      notification.error({
+        message: "Update Book",
+        description: "Please fill Fields!",
+      });
+    } else {
+      const newThumbnail = await (file
+        ? (async () => {
+            const res1 = await uploadThumbnail(file);
+            console.log("hehe");
+            return res1.data.fileUploaded;
+          })()
+        : thumbnail);
+
+      const res2 = await updateBook(
+        id,
+        newThumbnail,
+        mainText,
+        author,
+        +price,
+        +quantity,
+        category,
+      );
+
+      if (res2.data) {
+        notification.success({
+          message: "Update Book",
+          description: "Update success",
+        });
+
+        setIsModalOpen(false);
+        await loadBooks(current, pageSize);
+        setFile(null);
+      }
+    }
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -116,11 +166,23 @@ const BookTable = (props) => {
 
   const handleClickUpdate = (record) => {
     setIsModalOpen(true);
+    setId(record._id);
     setMainText(record.mainText);
     setAuthor(record.author);
     setCategory(record.category);
     setQuantity(record.quantity);
     setPrice(record.price);
+
+    setPreview(
+      `${import.meta.env.VITE_BACKEND_URL}/images/book/${record.thumbnail}`,
+    );
+    setThumbnail(record.thumbnail);
+  };
+
+  const handleChangeFile = (e) => {
+    const fileUrl = URL.createObjectURL(e.target.files[0]);
+    setPreview(fileUrl);
+    setFile(e.target.files[0]);
   };
 
   useEffect(() => {
@@ -164,6 +226,11 @@ const BookTable = (props) => {
         onOk={handleUpdate}
         onCancel={closeModal}
       >
+        <div style={{ marginBottom: "20px" }}>
+          <div>ID</div>
+          <Input value={id} disabled />
+        </div>
+
         <div style={{ marginBottom: "20px" }}>
           <div>Tiêu đề</div>
           <Input
@@ -220,6 +287,27 @@ const BookTable = (props) => {
               { value: "Travel", label: "Travel" },
             ]}
           />
+        </div>
+
+        <div style={{ marginBottom: "20px" }}>
+          <div>Ảnh thumbnail</div>
+          <Button
+            style={{
+              marginTop: "5px",
+              cursor: "pointer",
+              marginBottom: "15px",
+            }}
+            type="primary"
+            danger
+          >
+            <label style={{ cursor: "pointer" }} htmlFor="fileBook">
+              Upload
+            </label>
+          </Button>
+          <input hidden id="fileBook" type="file" onChange={handleChangeFile} />
+          <div style={{ width: "150px" }}>
+            <img style={{ width: "100%" }} src={preview} />
+          </div>
         </div>
       </Modal>
     </>

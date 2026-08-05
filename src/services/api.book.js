@@ -25,4 +25,26 @@ const createNewBook = (
   return axios.post(url, data);
 };
 
-export { getBooksPaginate, uploadThumbnail, createNewBook };
+const updateBook = (
+  id,
+  thumbnail,
+  mainText,
+  author,
+  price,
+  quantity,
+  category,
+) => {
+  const url = `api/v1/book`;
+  const data = {
+    _id: id,
+    thumbnail,
+    mainText,
+    author,
+    price,
+    quantity,
+    category,
+  };
+  return axios.put(url, data);
+};
+
+export { getBooksPaginate, uploadThumbnail, createNewBook, updateBook };
